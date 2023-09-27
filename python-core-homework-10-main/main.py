@@ -6,7 +6,6 @@ class Field:
 
     def __str__(self):
         return str(self.value)
-    
 
 class Name(Field):
     def __init__(self, name):
@@ -25,48 +24,51 @@ class Record:
         self.phones = []
 
     def add_phone(self, phone):
-        try:
-            phone_obj = Phone(phone)
-            self.phones.append(phone_obj)
-        except ValueError as e:
-            print(e)
+        phone_obj = Phone(phone)
+        self.phones.append(phone_obj)
 
-    def find_phone(self, phone):
-        result = list(filter(lambda x: x.value == phone, self.phones))
-        return result[0] if len(result) > 0 else None
+    def find_phone(self, phone: str = None):
+        if self.phones == []:
+            return None
 
-    def remove_phone(self, phone):
-        result = list(filter(lambda x: x.value == phone, self.phones))
-        if len(result) > 0:
-            self.phones.remove(result[0])
-            return True
-        else:
-            return False
+        for i in self.phones:
+            if i.value == phone:
+                return i
+        # return None
 
+    def remove_phone(self, phone: str = None):
+        if self.phones == []:
+            return None
+        
+        for i in self.phones:
+            if i.value == phone:
+                self.phones.remove(i) 
+        # return None
+        
     def edit_phone(self, old_phone, new_phone):
-        result = list(filter(lambda x: x.value == old_phone, self.phones))
-        if len(result) > 0:
-            result[0].value = new_phone
-            return new_phone
-        else:
-            raise ValueError("Phone number not found.")
-
+            for i in self.phones:
+                if i.value == old_phone:
+                    i.value = new_phone
+                    return
+            raise ValueError
+             
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(str(p) for p in self.phones)}"
 
 
 class AddressBook(UserDict):
-    def __init__(self):
-        super().__init__()
-        self.phones = []
 
     def add_record(self, record):
        self.data[record.name.value] = record
 
-    def find(self, name):
-        result = list(filter(lambda x: x.name.value == name, self.data.values()))
-        return result[0] if len(result) > 0 else None
+    def find(self, name: str):
+        for i in self.data:
+            if i == name:
+                return self.data[i]
+        return None 
+    
 
-    def delete(self, name):
+    def delete(self, name: str):
             result = self.data.pop(name, None)
             return result is not None
+    

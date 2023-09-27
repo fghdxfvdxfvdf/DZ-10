@@ -34,7 +34,6 @@ class Record:
         for i in self.phones:
             if i.value == phone:
                 return i
-        # return None
 
     def remove_phone(self, phone: str = None):
         if self.phones == []:
@@ -43,7 +42,6 @@ class Record:
         for i in self.phones:
             if i.value == phone:
                 self.phones.remove(i) 
-        # return None
         
     def edit_phone(self, old_phone, new_phone):
             for i in self.phones:
@@ -71,4 +69,3 @@ class AddressBook(UserDict):
     def delete(self, name: str):
             result = self.data.pop(name, None)
             return result is not None
-    
